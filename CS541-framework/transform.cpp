@@ -23,8 +23,18 @@ float* Pntr(glm::mat4& M)
 // before using sin and cos.  HINT: radians = degrees*PI/180
 const float pi = 3.14159f;
 glm::mat4 Rotate(const int i, const float theta)
-{
+{    
     glm::mat4 R(1.0);
+    float radian = theta * pi / 180.0f;
+    
+    int j = (i + 1) % 3;
+    int k = (i + 2) % 3;
+
+    R[j][j] = cosf(radian);
+    R[k][j] = -sinf(radian);
+    R[j][k] = sinf(radian);
+    R[k][k] = cosf(radian);
+
     return R;
 }
 
@@ -32,6 +42,9 @@ glm::mat4 Rotate(const int i, const float theta)
 glm::mat4 Scale(const float x, const float y, const float z)
 {
     glm::mat4 S(1.0);
+    //S[0].x *= x;
+    //S[0].y *= y;
+    //S[0].z *= z;
     return S;
 }
 
@@ -39,6 +52,9 @@ glm::mat4 Scale(const float x, const float y, const float z)
 glm::mat4 Translate(const float x, const float y, const float z)
 {
     glm::mat4 T(1.0);
+    //T[0].x += x;
+    //T[0].y += y;
+    //T[0].y += z;
     return T;
 }
 
@@ -47,6 +63,7 @@ glm::mat4 Perspective(const float rx, const float ry,
              const float front, const float back)
 {
     glm::mat4 P(1.0);
+
     return P;
 }
 
