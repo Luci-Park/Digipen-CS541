@@ -303,7 +303,7 @@ void Scene::BuildTransforms()
     // transformation matrices calculated from variables such as spin,
     // tilt, tr, ry, front, and back.
     rx = ry * width / (float)height;
-    WorldView = Rotate(2, spin) * Rotate(0, tilt - 90) * Translate(tx, ty, -zoom);    
+    WorldView = Translate(tx, ty, -zoom) * Rotate(0, tilt - 90) * Rotate(2, spin);
     WorldProj = Perspective(rx, ry, front, back);
     //WorldProj[0][0]=  2.368;
     //WorldProj[1][0]= -0.800;
