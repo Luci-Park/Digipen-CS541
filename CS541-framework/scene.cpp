@@ -148,7 +148,7 @@ void Scene::InitializeScene()
     s_down = false;
     d_down = false;
 
-    transformationMode = false;
+    transformationMode = true;
 
     lastTime = glfwGetTime();
 
@@ -307,9 +307,7 @@ void Scene::DrawMenu()
 }
 
 void Scene::BuildTransforms()
-{
-    
-
+{  
     // @@ When you are ready to try interactive viewing, replace the
     // following hard coded values for WorldProj and WorldView with
     // transformation matrices calculated from variables such as spin,
@@ -362,18 +360,20 @@ void Scene::BuildTransforms()
 void Scene::DrawScene()
 {
     float deltaTime = glfwGetTime() - lastTime;
+    lastTime = glfwGetTime();
     float step = speed * deltaTime;
 
+    float spinRad = spin * rad;
     if(w_down)
-        eye += step * glm::vec3(sin(spin), cos(spin), 0.0);
-    if(s_down)
-        eye -= step * glm::vec3(sin(spin), cos(spin), 0.0);
-    if(d_down)
-        eye += step * glm::vec3(cos(spin), -sin(spin), 0.0);
-    if(a_down)
-        eye -= step * glm::vec3(cos(spin), -sin(spin), 0.0);
+        eye += step * glm::vec3(sin(spinRad), cos(spinRad), 0.0);
+    else if(s_down)
+        eye -= step * glm::vec3(sin(spinRad), cos(spinRad), 0.0);
+    else if(d_down)
+        eye += step * glm::vec3(cos(spinRad), -sin(spinRad), 0.0);
+    else if(a_down)
+        eye -= step * glm::vec3(cos(spinRad), -sin(spinRad), 0.0);
 
-    eye.z = proceduralground->HeightAt(eye.x, eye.y);
+    eye.z = proceduralground->HeightAt(eye.x, eye.y) + 2;
 
     // Set the viewport
     glfwGetFramebufferSize(window, &width, &height);
