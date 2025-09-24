@@ -135,7 +135,7 @@ void Scene::InitializeScene()
     tilt = 30.0f;
     tx = 0.0f;
     ty = 0.0f;
-    zoom = 0.25f;
+    zoom = 25.0f;
     ry = 0.4f;
     front = 0.5f;
     back = 5000.0f;
