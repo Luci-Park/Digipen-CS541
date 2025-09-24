@@ -147,11 +147,11 @@ void Scroll(GLFWwindow* window, double x, double y)
 
         
     else if (y>0.0) {
-        //scene.zoom = pow(scene.zoom, 1.0f / 1.02f);
+        scene.zoom = pow(scene.zoom, 1.0f / 1.02f);
     }
 
     else if (y<0.0) {
-        //scene.zoom = pow(scene.zoom, 1.02f);
+        scene.zoom = pow(scene.zoom, 1.02f);
     }
 }
 
