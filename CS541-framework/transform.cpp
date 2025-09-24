@@ -42,9 +42,9 @@ glm::mat4 Rotate(const int i, const float theta)
 glm::mat4 Scale(const float x, const float y, const float z)
 {
     glm::mat4 S(1.0);
-    //S[0].x *= x;
-    //S[0].y *= y;
-    //S[0].z *= z;
+    S[0][0] *= x;
+    S[1][1] *= y;
+    S[2][2] *= z;
     return S;
 }
 
@@ -52,9 +52,9 @@ glm::mat4 Scale(const float x, const float y, const float z)
 glm::mat4 Translate(const float x, const float y, const float z)
 {
     glm::mat4 T(1.0);
-    //T[0].x += x;
-    //T[0].y += y;
-    //T[0].y += z;
+    T[3][0] += x;
+    T[3][1] += y;
+    T[3][2] += z;
     return T;
 }
 
