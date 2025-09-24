@@ -39,6 +39,8 @@ class Scene
 {
 public:
     GLFWwindow* window;
+    
+    float lastTime;
 
     // @@ Declare interactive viewing variables here. (spin, tilt, ry, front back, ...)
     float spin, tilt;
@@ -46,7 +48,12 @@ public:
     float rx, ry;
     float front, back;
 
+    glm::vec3 eye;
+    float speed;
 
+    bool w_down, a_down, s_down, d_down;
+    bool transformationMode;
+    
     // Light parameters
     float lightSpin, lightTilt, lightDist;
     glm::vec3 lightPos;

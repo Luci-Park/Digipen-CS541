@@ -139,6 +139,18 @@ void Scene::InitializeScene()
     ry = 0.4f;
     front = 0.5f;
     back = 5000.0f;
+    
+    eye = { 0.0f, -20.0f, 0.0f };
+    speed = 10.0f;
+
+    w_down = false;
+    a_down = false;
+    s_down = false;
+    d_down = false;
+
+    transformationMode = false;
+
+    lastTime = glfwGetTime();
 
     // Set initial light parameters
     lightSpin = 150.0;
@@ -303,8 +315,18 @@ void Scene::BuildTransforms()
     // transformation matrices calculated from variables such as spin,
     // tilt, tr, ry, front, and back.
     rx = ry * width / (float)height;
-    WorldView = Translate(tx, ty, -zoom) * Rotate(0, tilt - 90) * Rotate(2, spin);
-    WorldProj = Perspective(rx, ry, front, back);
+    if (transformationMode)
+    {
+        WorldView = Translate(tx, ty, -zoom) * Rotate(0, tilt - 90) * Rotate(2, spin);
+        WorldProj = Perspective(rx, ry, front, back);
+    }
+    else
+    {
+        WorldView = Rotate(0, tilt - 90) * Rotate(2, spin) * Translate(-eye.x, -eye.y, -eye.z);
+        WorldProj = Perspective(rx, ry, front, back);
+    }
+
+#pragma region Static View Matrices
     //WorldProj[0][0]=  2.368;
     //WorldProj[1][0]= -0.800;
     //WorldProj[2][0]=  0.000;
@@ -325,6 +347,7 @@ void Scene::BuildTransforms()
     //WorldView[3][0]= 0.0;
     //WorldView[3][1]= 0.0;
     //WorldView[3][2]= 0.0;
+#pragma endregion
 
     // @@ Print the two matrices (in column-major order) for
     // comparison with the project document.
@@ -338,6 +361,20 @@ void Scene::BuildTransforms()
 // goals.)
 void Scene::DrawScene()
 {
+    float deltaTime = glfwGetTime() - lastTime;
+    float step = speed * deltaTime;
+
+    if(w_down)
+        eye += step * glm::vec3(sin(spin), cos(spin), 0.0);
+    if(s_down)
+        eye -= step * glm::vec3(sin(spin), cos(spin), 0.0);
+    if(d_down)
+        eye += step * glm::vec3(cos(spin), -sin(spin), 0.0);
+    if(a_down)
+        eye -= step * glm::vec3(cos(spin), -sin(spin), 0.0);
+
+    eye.z = proceduralground->HeightAt(eye.x, eye.y);
+
     // Set the viewport
     glfwGetFramebufferSize(window, &width, &height);
     glViewport(0, 0, width, height);
