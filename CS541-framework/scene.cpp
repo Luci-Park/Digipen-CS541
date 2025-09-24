@@ -131,7 +131,15 @@ void Scene::InitializeScene()
     CHECKERROR;
 
     // @@ Initialize interactive viewing variables here. (spin, tilt, ry, front back, ...)
-    
+    spin = 0.0f;
+    tilt = 30.0f;
+    tx = 0.0f;
+    ty = 0.0f;
+    zoom = 0.25f;
+    ry = 0.4f;
+    front = 0.5f;
+    back = 5000.0f;
+
     // Set initial light parameters
     lightSpin = 150.0;
     lightTilt = -45.0;
@@ -294,31 +302,34 @@ void Scene::BuildTransforms()
     // following hard coded values for WorldProj and WorldView with
     // transformation matrices calculated from variables such as spin,
     // tilt, tr, ry, front, and back.
-    WorldProj[0][0]=  2.368;
-    WorldProj[1][0]= -0.800;
-    WorldProj[2][0]=  0.000;
-    WorldProj[3][0]=  0.000;
-    WorldProj[0][1]=  0.384;
-    WorldProj[1][1]=  1.136;
-    WorldProj[2][1]=  2.194;
-    WorldProj[3][1]=  0.000;
-    WorldProj[0][2]=  0.281;
-    WorldProj[1][2]=  0.831;
-    WorldProj[2][2]= -0.480;
-    WorldProj[3][2]= 42.451;
-    WorldProj[0][3]=  0.281;
-    WorldProj[1][3]=  0.831;
-    WorldProj[2][3]= -0.480;
-    WorldProj[3][3]= 43.442;
-    
-    WorldView[3][0]= 0.0;
-    WorldView[3][1]= 0.0;
-    WorldView[3][2]= 0.0;
+    rx = ry * width / (float)height;
+    WorldView = Rotate(2, spin) * Rotate(0, tilt - 90) * Translate(tx, ty, -zoom);    
+    WorldProj = Perspective(rx, ry, front, back);
+    //WorldProj[0][0]=  2.368;
+    //WorldProj[1][0]= -0.800;
+    //WorldProj[2][0]=  0.000;
+    //WorldProj[3][0]=  0.000;
+    //WorldProj[0][1]=  0.384;
+    //WorldProj[1][1]=  1.136;
+    //WorldProj[2][1]=  2.194;
+    //WorldProj[3][1]=  0.000;
+    //WorldProj[0][2]=  0.281;
+    //WorldProj[1][2]=  0.831;
+    //WorldProj[2][2]= -0.480;
+    //WorldProj[3][2]= 42.451;
+    //WorldProj[0][3]=  0.281;
+    //WorldProj[1][3]=  0.831;
+    //WorldProj[2][3]= -0.480;
+    //WorldProj[3][3]= 43.442;
+    //
+    //WorldView[3][0]= 0.0;
+    //WorldView[3][1]= 0.0;
+    //WorldView[3][2]= 0.0;
 
     // @@ Print the two matrices (in column-major order) for
     // comparison with the project document.
-    //std::cout << "WorldView: " << glm::to_string(WorldView) << std::endl;
-    //std::cout << "WorldProj: " << glm::to_string(WorldProj) << std::endl;
+    std::cout << "WorldView: " << glm::to_string(WorldView) << std::endl;
+    std::cout << "WorldProj: " << glm::to_string(WorldProj) << std::endl;
 }
 
 ////////////////////////////////////////////////////////////////////////

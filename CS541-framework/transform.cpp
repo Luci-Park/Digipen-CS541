@@ -64,8 +64,8 @@ glm::mat4 Perspective(const float rx, const float ry,
 {
     glm::mat4 P(1.0);
     float denominator = back - front;
-    P[0][0] = 1.0f / rx;
-    P[1][1] = 1.0f / ry;
+    P[0][0] = 2.0f / rx;
+    P[1][1] = 2.0f / ry;
     P[2][2] = (front - back) / denominator;
     P[3][2] = -2 * front * back / denominator;
     P[2][3] = -1;
