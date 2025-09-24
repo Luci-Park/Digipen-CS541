@@ -115,6 +115,8 @@ void MouseMotion(GLFWwindow* window, double x, double y)
         scene.lightTilt -= dy/3.0; }
 
     else if (leftDown) {
+        scene.spin += dx / 3.0f;
+        scene.tilt += dy / 3.0f;
     }
 
     if (middleDown) { }
@@ -145,9 +147,11 @@ void Scroll(GLFWwindow* window, double x, double y)
 
         
     else if (y>0.0) {
+        //scene.zoom = pow(scene.zoom, 1.0f / 1.02f);
     }
 
     else if (y<0.0) {
+        //scene.zoom = pow(scene.zoom, 1.02f);
     }
 }
 
